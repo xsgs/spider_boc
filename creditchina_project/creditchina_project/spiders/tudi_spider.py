@@ -51,7 +51,8 @@ class TudiEndSpider(scrapy.Spider):
     def parse_page(self, response):
         spider_date=response.meta['spider_date']
         urldomain = 'http://www.landchina.com/'
-        bs = BeautifulSoup(response.text, 'lxml')
+        bs = BeautifulSoup(response.text, 'html.parser')
+        #bs = BeautifulSoup(response.text, 'lxml') #by qxs
         info_list = bs.select('tr[class=gridItem],tr[class=gridAlternatingItem]')
         for info in info_list:
             item = TudiLoaderItem(item=TudiResultItem(), response=response)
@@ -72,7 +73,7 @@ class TudiEndSpider(scrapy.Spider):
                                                                'TAB_QuerySubmitConditionData': spider_date,
                                                                'TAB_QuerySubmitPagerData': str_nextpage
                                                            },
-                callback=self.parse_page,dont_filter=True
+                meta={'spider_date':spider_date}, callback=self.parse_page,dont_filter=True
             )
 
     def parse_item(self, response):

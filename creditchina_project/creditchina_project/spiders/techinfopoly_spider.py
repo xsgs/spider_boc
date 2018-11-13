@@ -22,7 +22,7 @@ class TechInfoPoly(scrapy.Spider):
             'creditchina_project.pipelines.CreditchinaProjectDB2Pipeline': 100,
         }
     }
-    execute('TRUNCATE TABLE SPIDER.NEWS IMMEDIATE')
+    #execute('TRUNCATE TABLE SPIDER.NEWS IMMEDIATE') # by qxs
     batch = datetime.datetime.now()
     allowed_domains = ['tech.sina.com.cn','36kr.com','iresearch.cn']
     default_data = {
