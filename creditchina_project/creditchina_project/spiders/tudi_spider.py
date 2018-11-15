@@ -60,7 +60,9 @@ class TudiEndSpider(scrapy.Spider):
             item.add_value('ordnum', re.sub(r'(\d)\.',r'\1',info.find_all('td')[0].text.strip()))
             full_url=urldomain + info.a['href']
             item.add_value('totalUrl', full_url)
+#             print full_url
             yield Request(url=full_url, meta={'item': item}, callback=self.parse_item, dont_filter=True)
+            
 
         nowpage = response.xpath('//td[@class="pager"][2]/input[1]/@value').extract()[0]
         nextpage = int(nowpage) + 1
@@ -82,6 +84,7 @@ class TudiEndSpider(scrapy.Spider):
             item.add_value('country', response.xpath('//span[@id="mainModuleContainer_1855_1856_ctl00_ctl00_p1_f1_r1_c2_ctrl"]/text()').extract()[0])
         except Exception as e:
             item.add_value('country', '')
+            print response.text
         try:
             item.add_value('num', response.xpath('//span[@id="mainModuleContainer_1855_1856_ctl00_ctl00_p1_f1_r1_c4_ctrl"]/text()').extract()[0])
         except Exception as e:
@@ -126,5 +129,17 @@ class TudiEndSpider(scrapy.Spider):
             item.add_value('compact', response.xpath('//span[@id="mainModuleContainer_1855_1856_ctl00_ctl00_p1_f1_r14_c4_ctrl"]/text()').extract()[0])
         except Exception as e:
             item.add_value('compact', '')
+        try:
+            item.add_value('volume_ratio_up', response.xpath('//span[@id="mainModuleContainer_1855_1856_ctl00_ctl00_p1_f2_r1_c4_ctrl"]/text()').extract()[0])
+        except Exception as e:
+            item.add_value('volume_ratio_up', '')
+        try:
+            item.add_value('volume_ratio_down', response.xpath('//span[@id="mainModuleContainer_1855_1856_ctl00_ctl00_p1_f2_r1_c2_ctrl"]/text()').extract()[0])
+        except Exception as e:
+            item.add_value('volume_ratio_down', '')
+        try:
+            item.add_value('durable_years', response.xpath('//span[@id="mainModuleContainer_1855_1856_ctl00_ctl00_p1_f1_r19_c2_ctrl"]/text()').extract()[0])
+        except Exception as e:
+            item.add_value('durable_years', '')
         item.add_value('table_name', 'SPIDER.TUDI_RESULT')
         yield item.load_item()

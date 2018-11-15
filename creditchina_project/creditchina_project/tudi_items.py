@@ -87,4 +87,11 @@ class TudiResultItem(scrapy.Item):
     start = scrapy.Field()
     finish = scrapy.Field()
     compact = scrapy.Field()
+    # add tudi begin by qxs
+    volume_ratio_up = scrapy.Field()
+    volume_ratio_down = scrapy.Field()
+    durable_years = scrapy.Field()
+    # add end
     table_name = scrapy.Field()
+    
+    
